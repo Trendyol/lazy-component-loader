@@ -16,7 +16,7 @@ jobs:
       - run: npm install
       - run:
           name: Run build
-          command: npm run build-tsc
+          command: npm run build
       - save_cache:
           paths:
             - node_modules
