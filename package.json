@@ -1,9 +1,10 @@
 {
-  "name": "@trendyol/component-lazy-loader",
+  "name": "component-lazy-loader",
   "version": "1.0.0",
   "description": "Component Lazy Loader",
   "main": "dist/index.js",
   "types": "dist/index.d.js",
+  "repository": "https://github.com/Trendyol/component-lazy-loader",
   "author": {
     "name": "bekirburak.aslan@trendyol.com",
     "name2": "volgabaris.civelek@trendyol.com"
