@@ -9,7 +9,6 @@
     "name2": "volgabaris.civelek@trendyol.com"
   },
   "scripts": {
-    "prepublish": "tsc",
     "build": "tsc",
     "test": "./node_modules/.bin/jest",
     "cov": "./node_modules/.bin/jest --collectCoverage"

@@ -4,9 +4,6 @@ defaults: &defaults
   docker:
     - image: circleci/node:10
 
-orbs:
-  codecov: codecov/codecov@1.0.4
-
 jobs:
   test:
     <<: *defaults
@@ -14,19 +11,16 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - dependencies-{{ checksum "package.json" }}
-            - dependencies-
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
       - run: yarn install
+      - run:
+          name: Run build
+          command: yarn run build
       - save_cache:
           paths:
             - node_modules
-          key: dependencies-{{ checksum "package.json" }}
-      - run: yarn test
-      - store_artifacts:
-          path: coverage
-      - codecov/upload:
-          file: coverage/*.json
-          token: $CODECOV_TOKEN
+          key: v1-dependencies-{{ checksum "package.json" }}
       - run: yarn build
       - persist_to_workspace:
           root: .
@@ -35,9 +29,9 @@ jobs:
             - CHANGELOG.md
             - LICENSE
             - package.json
-            - yarn.lock
             - package-lock.json
             - .npmignore
+            - yarn.lock
             - dist
   deploy:
     <<: *defaults
@@ -53,9 +47,26 @@ jobs:
       - run:
           name: Publish package
           command: npm publish
+  beta_deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: List Workspace
+          command: ls
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+      - run:
+          name: Publish package
+          command: npm publish --tag beta
 
 workflows:
   version: 2
+  test:
+    jobs:
+      - test
   test-deploy:
     jobs:
       - test:
@@ -70,6 +81,25 @@ workflows:
             branches:
               only: main
       - deploy:
+          requires:
+            - hold
+          filters:
+            branches:
+              only: main
+  test-betadeploy:
+    jobs:
+      - test:
+          filters:
+            tags:
+              only: /^v.*/
+      - hold:
+          type: approval
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
+      - beta_deploy:
           requires:
             - hold
           filters:
