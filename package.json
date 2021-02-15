@@ -1,0 +1,46 @@
+{
+  "name": "@trendyol/component-lazy-loader",
+  "version": "1.0.0",
+  "description": "Component Lazy Loader",
+  "main": "dist/index.js",
+  "types": "dist/index.d.js",
+  "author": {
+    "name": "bekirburak.aslan@trendyol.com",
+    "name2": "volgabaris.civelek@trendyol.com"
+  },
+  "scripts": {
+    "prepublish": "tsc",
+    "build": "tsc",
+    "test": "./node_modules/.bin/jest",
+    "cov": "./node_modules/.bin/jest --collectCoverage"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.7.2",
+    "react": "16.9.0",
+    "react-dom": "16.9.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^11.2.5",
+    "@types/faker": "^4.1.12",
+    "@types/jest": "^26.0.3",
+    "@types/node": "^14.14.21",
+    "@types/sinon": "^9.0.4",
+    "@types/react": "^17.0.1",
+    "@types/react-dom": "^17.0.0",
+    "faker": "^4.1.0",
+    "husky": "^4.3.8",
+    "jest": "^26.1.0",
+    "sinon": "^9.0.2",
+    "ts-jest": "^26.1.1",
+    "typescript": "^4.1.5"
+  },
+  "files": [
+    "dist"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn cov"
+    }
+  },
+  "license": "ISC"
+}
