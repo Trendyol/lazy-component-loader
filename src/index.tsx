@@ -10,7 +10,7 @@ const LazyComponent = ({
   force,
   onVisible,
 }: LazyLoadComponentsProps): any => {
-  if (!("IntersectionObserver" in window)) {
+  if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
     return children;
   }
 
