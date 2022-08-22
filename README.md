@@ -9,7 +9,7 @@ This package helps you load components with IntersectionObserver.
 ## Installation
 
 ```
-yarn install @trendyol/component-lazy-loader
+yarn add component-lazy-loader
 ```
 
 ## Usage
