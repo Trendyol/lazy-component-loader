@@ -1,7 +1,7 @@
 import React from "react";
 
-export interface LazyLoadComponentsProps {
-  placeholder: React.Component;
+export interface ILazyLoadComponentsProps {
+  placeholder: React.Component | string;
   children: React.Component;
   force?: boolean;
   ratio?: number;
