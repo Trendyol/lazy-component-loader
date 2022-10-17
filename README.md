@@ -18,7 +18,7 @@ Example:
 
 ```js
 import React from "react";
-import LazyComponent from "@trendyol/component-lazy-loader";
+import LazyComponent from "component-lazy-loader";
 
 function App() {
   let length = 100,
