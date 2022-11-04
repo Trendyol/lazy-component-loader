@@ -1,16 +1,15 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useRef, useEffect } from "react";
-import { LazyLoadComponentsProps } from "./interface";
-import PropTypes from "prop-types";
+import React, { useState, useRef, useEffect, RefObject } from "react";
+import { ILazyLoadComponentsProps } from "./interface";
 
 const LazyComponent = ({
   children,
   placeholder,
-  ratio,
-  force,
+  ratio = 0.1,
+  force = false,
   onVisible,
-}: LazyLoadComponentsProps): any => {
-  if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+}: ILazyLoadComponentsProps): React.Component | JSX.Element => {
+  if (!window || !("IntersectionObserver" in window)) {
     return children;
   }
 
@@ -18,19 +17,19 @@ const LazyComponent = ({
     handleObserve();
   }, []);
 
-  const [currentComponent, setCurrentComponent] = useState(
+  const [currentComponent, setCurrentComponent] = useState<React.Component | string>(
     force ? children : placeholder
   );
-  const el = useRef(null);
+  const el: RefObject<HTMLDivElement> = useRef(null);
 
   const handleChange = ([root]: any) => {
     if (
       root.intersectionRatio > Number(ratio) &&
-      root.isIntersecting === true
+      root.isIntersecting
     ) {
       setCurrentComponent(children);
       observer.disconnect();
-      if (onVisible) onVisible();
+      onVisible?.();
     }
   };
 
@@ -39,22 +38,9 @@ const LazyComponent = ({
   });
 
   const handleObserve = () => {
-    observer.observe(el.current as any);
+    observer.observe(el.current as Element);
   };
   return <div ref={el}>{currentComponent}</div>;
-};
-
-LazyComponent.defaultProps = {
-  ratio: 0.1,
-  force: false,
-};
-
-LazyComponent.propTypes = {
-  children: PropTypes.element.isRequired,
-  placeholder: PropTypes.element.isRequired,
-  ratio: PropTypes.number,
-  force: PropTypes.bool,
-  onVisible: PropTypes.func,
 };
 
 export default LazyComponent;
