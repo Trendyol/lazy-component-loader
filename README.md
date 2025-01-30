@@ -1,3 +1,5 @@
+
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Trendyol/lazy-component-loader/badge)](https://scorecard.dev/viewer/?uri=github.com/Trendyol/lazy-component-loader)
 # Lazy Load Components Package
 
 This package helps you load components with IntersectionObserver.
